@@ -21,7 +21,7 @@ public class HomeService {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.REQUIRED)
     public String testTransaction() {
         supportService.testSupportTransaction();
         return "Success";

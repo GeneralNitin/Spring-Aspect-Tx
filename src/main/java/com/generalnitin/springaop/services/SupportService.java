@@ -13,12 +13,12 @@ public class SupportService {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(transactionManager = "transactionManager", propagation = Propagation.MANDATORY)
     public void testSupportTransaction() {
         Home home = new Home();
         home.setName("Test Data");
         entityManager.persist(home); // fails here in Spring 3.3 with msg: jakarta.persistence.TransactionRequiredException: No EntityManager with actual transaction available for current thread - cannot reliably process 'persist' call
         entityManager.flush();
-        entityManager.refresh(home);
+        entityManager.refresh(home); // unnecessary, but just to test
     }
 }
