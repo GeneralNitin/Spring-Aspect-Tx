@@ -17,4 +17,10 @@ public class HomeController {
     public String hello() {
         return homeService.sayHello();
     }
+
+
+    @GetMapping("/transactions")
+    public String transactions() {
+        return homeService.testTransaction();
+    }
 }
