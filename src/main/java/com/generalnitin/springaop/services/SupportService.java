@@ -13,7 +13,7 @@ public class SupportService {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Transactional(transactionManager = "transactionManager", propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.MANDATORY)
     public void testSupportTransaction() {
         Home home = new Home();
         home.setName("Test Data");

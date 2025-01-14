@@ -14,7 +14,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class LogAspect {
 
-    @Around("@annotation(CustomAnnotation)")
+    // Add 'execution(* *(..))' to avoid capturing native AspectJ 'call' pointcuts
+    @Around("@annotation(CustomAnnotation) && execution(* *(..))")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         CustomAnnotation execTime = method.getAnnotation(CustomAnnotation.class);

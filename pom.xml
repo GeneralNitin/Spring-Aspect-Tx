@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <!-- <micrometer.version>1.12.13</micrometer.version> -->
+        <micrometer.version>1.13.6</micrometer.version>
     </properties>
 
     <dependencies>
@@ -48,6 +48,32 @@
             <artifactId>aspectjrt</artifactId>
             <version>${aspectj.version}</version>
         </dependency>
+
+        <!-- Needed by spring-aspects -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring-framework.version}</version>
+        </dependency>
+        <!-- Needed by spring-aspects -->
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- Help AspectJ Maven find the library -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+        <!-- Needed by micrometer-observation (ObservedAspect, enabling @Observed) -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>context-propagation</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -75,6 +101,18 @@
                     <weaveDirectories>
                         <weaveDirectory>${project.build.directory}/unwoven-classes</weaveDirectory>
                     </weaveDirectories>
+                    <weaveDependencies>
+                        <!-- Spring transactions in native AspectJ mode -->
+                        <weaveDependency>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-aspects</artifactId>
+                        </weaveDependency>
+                        <!-- ObservedAspect, enabling @Observed -->
+                        <weaveDependency>
+                            <groupId>io.micrometer</groupId>
+                            <artifactId>micrometer-observation</artifactId>
+                        </weaveDependency>
+                    </weaveDependencies>
                 </configuration>
                 <executions>
                     <execution>
